@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">App B</string>
+    <string name="authenticate_button">Send authentication</string>
+    <string name="log_empty">Log is empty</string>
 </resources>
