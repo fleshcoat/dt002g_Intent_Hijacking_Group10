@@ -26,11 +26,16 @@ public class MainActivity extends AppCompatActivity {
   private RadioGroup radioGroup;
   private RadioButton radioButton;
   private ArrayList<LogItem> logItemList;
+  private String intentMsg = null;
+  private SimpleDateFormat sdf;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    // Set time format
+    sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
     addListenerButton();
 
@@ -43,6 +48,21 @@ public class MainActivity extends AppCompatActivity {
 
     mRecyclerView.setLayoutManager(mLayoutManager);
     mRecyclerView.setAdapter(mAdapter);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    // Get the current system time
+    String currentTime = sdf.format(new Date());
+
+    try {
+      intentMsg = this.getIntent().getExtras().getString(Intent.EXTRA_TEXT);
+      logItemList.add(new LogItem(currentTime, intentMsg));
+    } catch (NullPointerException e) {
+      // No intent received or unable to retrieve content
+    }
   }
 
   private void addListenerButton() {
@@ -62,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         implicitIntent.setType("text/plain");
 
         // Get the current system time
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(new Date());
 
         logItemList.add(new LogItem(currentTime, (String) radioButton.getText()));
