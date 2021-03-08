@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -51,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         int selectedId = radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(selectedId);
 
+        // Create the text message from the value of the radiobutton
+        Intent implicitIntent = new Intent();
+        implicitIntent.setAction(Intent.ACTION_SEND);
+        implicitIntent.putExtra(Intent.EXTRA_TEXT, radioButton.getText());
+        implicitIntent.setType("text/plain");
+
         // Get the current system time
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         String currentTime = sdf.format(new Date());
@@ -59,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Update the view
         mAdapter.notifyDataSetChanged();
+
+        // Try to send implicit intent
+        try {
+          startActivity(implicitIntent);
+        } catch (ActivityNotFoundException e) {
+          // Temporary toast
+          Toast.makeText(getApplicationContext(), "Failed to start activity!", Toast.LENGTH_SHORT).show();
+        }
       }
     });
   }
