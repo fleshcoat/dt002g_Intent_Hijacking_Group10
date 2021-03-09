@@ -2,4 +2,6 @@
     <string name="app_name">App B</string>
     <string name="authenticate_button">Send authentication</string>
     <string name="log_empty">Log is empty</string>
+    <string name="received">Received:\u0020</string>
+    <string name="sent">Sent:\u0020</string>
 </resources>

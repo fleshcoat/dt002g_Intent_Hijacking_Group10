@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     try {
       intentMsg = this.getIntent().getExtras().getString(Intent.EXTRA_TEXT);
-      logItemList.add(new LogItem(currentTime, intentMsg));
+      logItemList.add(new LogItem(currentTime, getResources().getString(R.string.received) + intentMsg));
     } catch (NullPointerException e) {
       // No intent received or unable to retrieve content
     }
@@ -74,24 +74,14 @@ public class MainActivity extends AppCompatActivity {
         // Get the current system time
         String currentTime = sdf.format(new Date());
 
-        logItemList.add(new LogItem(currentTime, intentMsg));
+        logItemList.add(new LogItem(currentTime, getResources().getString(R.string.sent) + intentMsg));
 
         // Update the view
         mAdapter.notifyDataSetChanged();
 
-        // Create the text message from the value of the radiobutton
-        Intent implicitIntent = new Intent();
-        implicitIntent.setAction(Intent.ACTION_SEND);
-        implicitIntent.putExtra(Intent.EXTRA_TEXT, intentMsg);
-        implicitIntent.setType("text/plain");
-
-        // Try to send implicit intent
-        try {
-          startActivity(implicitIntent);
-        } catch (ActivityNotFoundException e) {
-          // Temporary toast
-          Toast.makeText(getApplicationContext(), "Failed to start activity!", Toast.LENGTH_SHORT).show();
-        }
+        // Return the same intentMsg and close the app
+        setResult(1, new Intent().putExtra(Intent.EXTRA_TEXT, intentMsg));
+        finish();
       }
     });
   }
