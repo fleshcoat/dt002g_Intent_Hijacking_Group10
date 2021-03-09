@@ -2,4 +2,7 @@
     <string name="app_name">App B</string>
     <string name="authenticate_button">Send authentication</string>
     <string name="log_empty">Log is empty</string>
+    <string name="about_str">About</string>
+    <string name="about_information">" This project was created for the course DT002G at MIUN spring 2021\n         Created by:\n         Andreas Moe(anmo1602)\n Fredrik Helgesson(frhe0300)\n Henrik Henriksson (hehe0601)\n"</string>
+    <string name="clear_list">Data has been cleared</string>
 </resources>

@@ -1,12 +1,16 @@
 package se.miun.dt002g.group10.appb;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -95,4 +99,43 @@ public class MainActivity extends AppCompatActivity {
       }
     });
   }
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+    switch (item.getItemId()) {
+      case R.id.action_about:
+        showAbout();
+        break;
+      case R.id.action_clear:
+        clearData();
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void showAbout() {
+
+    AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+
+    adb.setTitle(getString(R.string.about_str));
+    adb.setMessage(getString(R.string.about_information));
+    adb.setCancelable(true);
+
+    adb.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int i) {
+        dialog.cancel();
+      }
+
+    });
+    AlertDialog aboutDialog = adb.create();
+    aboutDialog.show();
+  }
+
+  private void clearData() {
+    logItemList.clear();
+    Toast.makeText(getApplicationContext(), R.string.clear_list, Toast.LENGTH_SHORT).show();
+    mAdapter.notifyDataSetChanged();
+  }
+
 }
