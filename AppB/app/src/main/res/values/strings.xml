@@ -5,7 +5,6 @@
     <string name="about_str">About</string>
     <string name="about_information">" This project was created for the course DT002G at MIUN spring 2021\n
         Created by:\nAndreas Moe(anmo1602)\n Fredrik Helgesson(frhe0300)\n Henrik Henriksson (hehe0601)\n"</string>
-    <string name="clear_list">Data has been cleared</string>
     <string name="received">Received:\u0020</string>
     <string name="sent">Sent:\u0020</string>
     <string name="action_about" type="id">About App B</string>

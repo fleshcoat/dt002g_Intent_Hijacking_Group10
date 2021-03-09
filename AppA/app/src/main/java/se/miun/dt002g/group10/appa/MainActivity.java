@@ -33,11 +33,10 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private static final int REQUEST_CODE = 0;
     private static final String SHARED_PREF_APP_A = "sharedPrefAppA";
     private static final String LOG_LIST_KEY_APP_A = "logListKeyAppA";
-
+    private static final String ACTION_VICTIM_INTENT = "se.miun.dt002g.group10.VICTIM_INTENT";
 
     private RecyclerView.Adapter mAdapter;
 
@@ -151,8 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 radioButton = findViewById(selectedId);
 
                 // Create the text message from the value of the radiobutton
-                Intent implicitIntent = new Intent();
-                implicitIntent.setAction(Intent.ACTION_SEND);
+                Intent implicitIntent = new Intent(ACTION_VICTIM_INTENT);
                 implicitIntent.putExtra(Intent.EXTRA_TEXT, radioButton.getText());
                 implicitIntent.setType("text/plain");
 
@@ -218,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearData() {
         logItemList.clear();
-        Toast.makeText(getApplicationContext(), R.string.clear_list, Toast.LENGTH_SHORT).show();
         mAdapter.notifyDataSetChanged();
     }
 }
