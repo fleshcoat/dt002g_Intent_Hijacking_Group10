@@ -1,5 +1,6 @@
 package se.miun.dt002g.group10.appa;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,8 +26,10 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+  private static final int REQUEST_CODE = 0;
   private static final String SHARED_PREF_APP_A = "sharedPrefAppA";
   private static final String LOG_LIST_KEY_APP_A = "logListKeyAppA";
+
 
   private RecyclerView.Adapter mAdapter;
 
@@ -58,24 +61,28 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  protected void onResume() {
-    super.onResume();
-
-    // Get the current system time
-    String currentTime = sdf.format(new Date());
-
-    try {
-      intentMsg = this.getIntent().getExtras().getString(Intent.EXTRA_TEXT);
-      logItemList.add(new LogItem(currentTime, intentMsg));
-    } catch (NullPointerException e) {
-      // No intent received or unable to retrieve content
-    }
-  }
-
-  @Override
   protected void onPause() {
     super.onPause();
     saveLogListItem();
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == REQUEST_CODE) {
+      try {
+        intentMsg = data.getExtras().getString(Intent.EXTRA_TEXT);
+        String currentTime = sdf.format(new Date());
+        logItemList.add(new LogItem(currentTime,
+            getResources().getString(R.string.received) + intentMsg));
+
+        // Update the view
+        mAdapter.notifyDataSetChanged();
+      } catch (NullPointerException e) {
+        // Do nothing. Unable to retrieve content
+      }
+    }
   }
 
   private void saveLogListItem() {
@@ -126,14 +133,15 @@ public class MainActivity extends AppCompatActivity {
         // Get the current system time
         String currentTime = sdf.format(new Date());
 
-        logItemList.add(new LogItem(currentTime, (String) radioButton.getText()));
+        logItemList.add(new LogItem(currentTime,
+            getResources().getString(R.string.sent) + radioButton.getText()));
 
         // Update the view
         mAdapter.notifyDataSetChanged();
 
         // Try to send implicit intent
         try {
-          startActivity(implicitIntent);
+          startActivityForResult(implicitIntent, REQUEST_CODE);
         } catch (ActivityNotFoundException e) {
           // Temporary toast
           Toast.makeText(getApplicationContext(), "Failed to start activity!",

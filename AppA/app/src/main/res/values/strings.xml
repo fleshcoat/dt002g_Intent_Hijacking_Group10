@@ -4,4 +4,6 @@
     <string name="string_false">False</string>
     <string name="send_implicit_intent_button">SEND IMPLICIT INTENT</string>
     <string name="no_previous_log">Log is empty</string>
+    <string name="received">Received:\u0020</string>
+    <string name="sent">Sent:\u0020</string>
 </resources>
