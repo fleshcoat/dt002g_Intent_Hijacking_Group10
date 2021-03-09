@@ -2,7 +2,9 @@ package se.miun.dt002g.group10.appa;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,8 +33,11 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String SHARED_PREF_APPA = "sharedPrefAppA";
-    private static final String LOG_LIST_KEY_APPA = "logListKeyAppA";
+
+    private static final int REQUEST_CODE = 0;
+    private static final String SHARED_PREF_APP_A = "sharedPrefAppA";
+    private static final String LOG_LIST_KEY_APP_A = "logListKeyAppA";
+
 
     private RecyclerView.Adapter mAdapter;
 
@@ -78,15 +83,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
         saveLogListItem();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE) {
+            try {
+                intentMsg = data.getExtras().getString(Intent.EXTRA_TEXT);
+                String currentTime = sdf.format(new Date());
+                logItemList.add(new LogItem(currentTime,
+                        getResources().getString(R.string.received) + intentMsg));
+
+                // Update the view
+                mAdapter.notifyDataSetChanged();
+            } catch (NullPointerException e) {
+                // Do nothing. Unable to retrieve content
+            }
+        }
+    }
+
     private void saveLogListItem() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APPA, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APP_A, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
 
@@ -94,15 +117,18 @@ public class MainActivity extends AppCompatActivity {
         String json = gson.toJson(logItemList);
 
         // Add json to shared preferences
-        editor.putString(LOG_LIST_KEY_APPA, json);
+        editor.putString(LOG_LIST_KEY_APP_A, json);
+
 
         editor.apply();
     }
 
+
     private void loadLogListItem() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APPA, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APP_A, MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString(LOG_LIST_KEY_APPA, null);
+        String json = sharedPreferences.getString(LOG_LIST_KEY_APP_A, null);
+
 
         // Specify that Gson should convert json to ArrayList of LogItems
         Type type = new TypeToken<ArrayList<LogItem>>() {
@@ -133,14 +159,15 @@ public class MainActivity extends AppCompatActivity {
                 // Get the current system time
                 String currentTime = sdf.format(new Date());
 
-                logItemList.add(new LogItem(currentTime, (String) radioButton.getText()));
+                logItemList.add(new LogItem(currentTime,
+                        getResources().getString(R.string.sent) + radioButton.getText()));
 
                 // Update the view
                 mAdapter.notifyDataSetChanged();
 
                 // Try to send implicit intent
                 try {
-                    startActivity(implicitIntent);
+                    startActivityForResult(implicitIntent, REQUEST_CODE);
                 } catch (ActivityNotFoundException e) {
                     // Temporary toast
                     Toast.makeText(getApplicationContext(), "Failed to start activity!",
@@ -175,16 +202,15 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
 
+
         adb.setTitle(getString(R.string.about_str));
         adb.setMessage(getString(R.string.about_information));
         adb.setCancelable(true);
-
         adb.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 dialog.cancel();
             }
-
         });
         AlertDialog aboutDialog = adb.create();
         aboutDialog.show();
@@ -195,5 +221,4 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), R.string.clear_list, Toast.LENGTH_SHORT).show();
         mAdapter.notifyDataSetChanged();
     }
-
 }

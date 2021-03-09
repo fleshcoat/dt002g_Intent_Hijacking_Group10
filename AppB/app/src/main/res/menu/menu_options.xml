@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="se.miun.dt002g.group10.appa.MainActivity">
+    tools:context="se.miun.dt002g.group10.appb.MainActivity">
     <item
         android:id="@+id/action_about"
         android:orderInCategory="100"
@@ -12,6 +12,5 @@
         android:orderInCategory="100"
         android:title="@string/action_clear"
         app:showAsAction="ifRoom" />
-
 
 </menu>

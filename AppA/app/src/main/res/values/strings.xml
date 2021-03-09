@@ -13,4 +13,6 @@
         Andreas Moe(anmo1602)\n Fredrik Helgesson(frhe0300)\n Henrik Henriksson (hehe0601)\n
     </string>
     <string name="clear_list">Data has been cleared.</string>
+    <string name="received">Received:\u0020</string>
+    <string name="sent">Sent:\u0020</string>
 </resources>

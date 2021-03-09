@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="action_about" type="id">About App B</item>
-    <item name="action_clear" type="id">Clear Data</item>
-</resources>
