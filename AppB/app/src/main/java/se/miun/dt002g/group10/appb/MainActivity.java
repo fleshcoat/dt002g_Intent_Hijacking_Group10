@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
 
   private void clearData() {
     logItemList.clear();
-    Toast.makeText(getApplicationContext(), R.string.clear_list, Toast.LENGTH_SHORT).show();
     mAdapter.notifyDataSetChanged();
   }
 
