@@ -26,9 +26,10 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-  private static final String SHARED_PREF_APPA = "sharedPrefAppA";
-  private static final String LOG_LIST_KEY_APPA = "logListKeyAppA";
   private static final int REQUEST_CODE = 0;
+  private static final String SHARED_PREF_APP_A = "sharedPrefAppA";
+  private static final String LOG_LIST_KEY_APP_A = "logListKeyAppA";
+
 
   private RecyclerView.Adapter mAdapter;
 
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void saveLogListItem() {
-    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APPA, MODE_PRIVATE);
+    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APP_A, MODE_PRIVATE);
     SharedPreferences.Editor editor = sharedPreferences.edit();
     Gson gson = new Gson();
 
@@ -93,15 +94,15 @@ public class MainActivity extends AppCompatActivity {
     String json = gson.toJson(logItemList);
 
     // Add json to shared preferences
-    editor.putString(LOG_LIST_KEY_APPA, json);
+    editor.putString(LOG_LIST_KEY_APP_A, json);
 
     editor.apply();
   }
 
   private void loadLogListItem() {
-    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APPA, MODE_PRIVATE);
+    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_APP_A, MODE_PRIVATE);
     Gson gson = new Gson();
-    String json = sharedPreferences.getString(LOG_LIST_KEY_APPA, null);
+    String json = sharedPreferences.getString(LOG_LIST_KEY_APP_A, null);
 
     // Specify that Gson should convert json to ArrayList of LogItems
     Type type = new TypeToken<ArrayList<LogItem>>() {
