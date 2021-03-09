@@ -4,4 +4,13 @@
     <string name="string_false">False</string>
     <string name="send_implicit_intent_button">SEND IMPLICIT INTENT</string>
     <string name="no_previous_log">Log is empty</string>
+    <string name="action_about">About</string>
+    <string name="action_clear">Clear Data</string>
+    <string name="about_str">About</string>
+    <string name="about_information">
+      This project was created for the course DT002G at MIUN spring 2021\n
+        Created by:\n
+        Andreas Moe(anmo1602)\n Fredrik Helgesson(frhe0300)\n Henrik Henriksson (hehe0601)\n
+    </string>
+    <string name="clear_list">Data has been cleared.</string>
 </resources>
