@@ -1,5 +1,6 @@
 package se.miun.dt002g.group10.appa;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class LogItemAdapter extends RecyclerView.Adapter<LogItemAdapter.LogItemV
 
     holder.mTextViewDate.setText(currentLogItem.getDate());
     holder.mTextViewInfo.setText(currentLogItem.getLogInfo());
+    holder.mTextViewInfo.setTextColor(currentLogItem.getTextColor());
   }
 
   @Override
