@@ -2,4 +2,10 @@
     <string name="app_name">App C</string>
     <string name="log_empty">Log is empty</string>
     <string name="authenticate_button">Send authentication</string>
+    <string name="about_str">About</string>
+    <string name="about_information">"This project was created for the course DT002G at MIUN spring 2021\n\nCreated by:\nAndreas Moe(anmo1602)\nFredrik Helgesson(frhe0300)\nHenrik Henriksson (hehe0601)\n"</string>
+    <string name="received">Received:\u0020</string>
+    <string name="sent">Sent:\u0020</string>
+    <string name="action_about" type="id">About App C</string>
+    <string name="action_clear" type="id">Clear Data</string>
 </resources>
