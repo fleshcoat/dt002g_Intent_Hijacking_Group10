@@ -13,7 +13,9 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,10 +96,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE) {
             try {
-                intentMsg = data.getExtras().getString(Intent.EXTRA_TEXT);
+                String receivedMsg = data.getExtras().getString(Intent.EXTRA_TEXT);
                 String currentTime = sdf.format(new Date());
-                logItemList.add(new LogItem(currentTime,
-                        getResources().getString(R.string.received) + intentMsg));
+                LogItem logItem = new LogItem(currentTime,
+                    getResources().getString(R.string.received) + receivedMsg);
+
+                if (!receivedMsg.equals(this.intentMsg)) {
+                    logItem.setTextColor(Color.RED);
+                }
+
+                logItemList.add(logItem);
 
                 // Update the view
                 mAdapter.notifyDataSetChanged();
@@ -148,17 +156,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedId);
+                intentMsg = (String) radioButton.getText();
 
                 // Create the text message from the value of the radiobutton
                 Intent implicitIntent = new Intent(ACTION_VICTIM_INTENT);
-                implicitIntent.putExtra(Intent.EXTRA_TEXT, radioButton.getText());
+                implicitIntent.putExtra(Intent.EXTRA_TEXT, intentMsg);
                 implicitIntent.setType("text/plain");
 
                 // Get the current system time
                 String currentTime = sdf.format(new Date());
 
                 logItemList.add(new LogItem(currentTime,
-                        getResources().getString(R.string.sent) + radioButton.getText()));
+                        getResources().getString(R.string.sent) + intentMsg));
 
                 // Update the view
                 mAdapter.notifyDataSetChanged();
