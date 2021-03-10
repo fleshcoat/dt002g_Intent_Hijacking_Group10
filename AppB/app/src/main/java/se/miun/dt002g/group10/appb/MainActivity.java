@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
   private ArrayList<LogItem> logItemList;
   private String intentMsg = null;
   private SimpleDateFormat sdf;
+  private Button authButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     // Set time format
     sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
+    authButton = findViewById(R.id.intentButton);
     addListenerButton();
 
     RecyclerView mRecyclerView = findViewById(R.id.log_recycler_view);
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
       logItemList.add(new LogItem(currentTime, getResources().getString(R.string.received) + intentMsg));
     } catch (NullPointerException e) {
       // No intent received or unable to retrieve content
+      authButton.setEnabled(false);
     }
   }
 
@@ -107,9 +110,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void addListenerButton() {
-    Button intentButton = findViewById(R.id.intentButton);
-
-    intentButton.setOnClickListener(new View.OnClickListener() {
+    authButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
 
