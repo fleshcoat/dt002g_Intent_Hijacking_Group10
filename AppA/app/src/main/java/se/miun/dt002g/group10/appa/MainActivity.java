@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -47,12 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<LogItem> logItemList;
     private String intentMsg = null;
     private SimpleDateFormat sdf;
+    private TextView logTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        logTextView = findViewById(R.id.log_view);
         loadLogListItem();
 
         // Set time format
@@ -67,20 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Get the current system time
-        String currentTime = sdf.format(new Date());
-
-        try {
-            intentMsg = this.getIntent().getExtras().getString(Intent.EXTRA_TEXT);
-            logItemList.add(new LogItem(currentTime, intentMsg));
-        } catch (NullPointerException e) {
-            // No intent received or unable to retrieve content
+        if (logItemList.isEmpty()) {
+            logTextView.setVisibility(View.VISIBLE);
+        } else {
+            logTextView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -126,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
         // Add json to shared preferences
         editor.putString(LOG_LIST_KEY_APP_A, json);
 
-
         editor.apply();
     }
 
@@ -168,6 +161,10 @@ public class MainActivity extends AppCompatActivity {
 
                 logItemList.add(new LogItem(currentTime,
                         getResources().getString(R.string.sent) + intentMsg));
+
+                if (logTextView.getVisibility() == View.VISIBLE) {
+                    logTextView.setVisibility(View.INVISIBLE);
+                }
 
                 // Update the view
                 mAdapter.notifyDataSetChanged();
@@ -225,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearData() {
         logItemList.clear();
+        logTextView.setVisibility(View.VISIBLE);
         mAdapter.notifyDataSetChanged();
     }
 }

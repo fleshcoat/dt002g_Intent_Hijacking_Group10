@@ -6,4 +6,8 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:itemBackground">@color/skyBlue</item>
     </style>
+    <style name="SendButton" parent="ThemeOverlay.AppCompat">
+        <item name="colorButtonNormal">@drawable/send_btn</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

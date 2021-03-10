@@ -11,4 +11,5 @@
     <color name="colorPrimaryDark">#E63124</color>
     <color name="colorAccent">#4CAF50</color>
     <color name="skyBlue">#87CEEB</color>
+    <color name="disabledGrey">#A3A3A3</color>
 </resources>
